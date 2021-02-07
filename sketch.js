@@ -1,13 +1,27 @@
 var ball;
+var database
+var position
+var bg, spider
 
 function setup(){
     createCanvas(500,500);
     ball = createSprite(250,250,10,10);
-    ball.shapeColor = "red";
+    ball.addImage(spider)
+    ball.scale=0.2
+    database = firebase.database();
+    var dataref = database.ref('Position')
+    dataref.on("value", read);
+}
+function preload(){
+bg=loadImage("cityskyline.png")
+spider=loadImage("spiderman.png")
+
+
+
 }
 
 function draw(){
-    background("white");
+    background(bg);
     if(keyDown(LEFT_ARROW)){
         changePosition(-1,0);
     }
@@ -24,6 +38,14 @@ function draw(){
 }
 
 function changePosition(x,y){
-    ball.x = ball.x + x;
-    ball.y = ball.y + y;
+    database.ref('Position').set({
+        x:ball.x+x,
+        y:ball.y+y
+    })
+}
+
+function read(data){
+position = data.val();
+ball.x=position.x
+ball.y=position.y
 }
