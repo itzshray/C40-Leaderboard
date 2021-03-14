@@ -26,17 +26,20 @@ gameStateref.on('value',function(data){
     
         }
         car1=createSprite(100,200,50,50)
+        car1.addImage(carIMG1)
         car2=createSprite(200,200,50,50)
+        car2.addImage(carIMG2)
         cars=[car1,car2]
         
     }
     play(){
         form.hide();
-        textSize(21)
-        text("Game Start",500,150)
         Player.getPlayerInfo()
+        player.getFinishPlayer()
         if(allPlayers!==undefined){
             //var pos=200
+            background(groundIMG)
+            image(trackIMG, 0,-displayHeight*5, displayWidth, displayHeight*6 )
             var x=200;
             var y=0;
             var index=0
@@ -57,9 +60,17 @@ gameStateref.on('value',function(data){
                     //fill("black")
                 
                 textSize(21)
-                //text(allPlayers[x].name+":"+allPlayers[x].distance,500,pos)
+                text(allPlayers[plr].name+":"+allPlayers[plr].distance,cars[index-1].x-10, cars[index-1].y+60)
                 //pos+=50
             }
+        }
+        if (player.distance>4100&&finishPlayers<=2&&passFinish===false){
+        Player.updateFinish()
+            player.rank=finishPlayers
+            player.update()
+            passFinish=true 
+        
+        
         }
         if(keyIsDown(UP_ARROW)&&player.index!==null){
             player.distance+=20
