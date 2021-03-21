@@ -52,13 +52,14 @@ gameStateref.on('value',function(data){
                 cars[index-1].y=y
                 console.log(player.index)
                 if(index===player.index){
-                    //fill("red")
-                    cars[index-1].shapeColor='red'
+                    fill("red")
+                    ellipse(x,y,60,60)
+                    //cars[index-1].shapeColor='red'
                     camera.position.x=displayWidth/2
                     camera.position.y=cars[index-1].y
-                }//else{
-                    //fill("black")
-                
+                }else{
+                    fill("black")
+                }
                 textSize(21)
                 text(allPlayers[plr].name+":"+allPlayers[plr].distance,cars[index-1].x-10, cars[index-1].y+60)
                 //pos+=50
@@ -72,11 +73,33 @@ gameStateref.on('value',function(data){
         
         
         }
-        if(keyIsDown(UP_ARROW)&&player.index!==null){
+        if(keyIsDown(UP_ARROW)&&passFinish===false&&player.index!==null){
             player.distance+=20
             player.update();
         }
+        
         drawSprites();
+    }
+    end(){
+        console.log('gameEnds')
+       Player.getPlayerInfo();
+       textSize(21)
+       fill('aqua')
+       imageMode(CENTER)
+       camera.position.x=0
+       camera.position.y=0
+
+       for(var plr in allPlayers){
+           if (allPlayers[plr].rank===1){
+               text("Rank 1:"+ allPlayers[plr].name,0,325)
+               image(goldIMG, 50,200, 200,250)
+           }
+         else if (allPlayers[plr].rank===2){
+               
+               text("Rank 2:"+ allPlayers[plr].name,150,325)
+               image(silverIMG, 200,200,150,220)
+           }
+       }
     }
     
 }

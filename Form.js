@@ -13,6 +13,7 @@ class Form{
         this.greeting.hide();
         this.title2.hide();
     }
+    
     display(){
         this.title.html('Car-Racing Game')
         this.title2.html('Enter your name')
@@ -35,10 +36,11 @@ class Form{
         )
         this.reset.mousePressed(
             ()=>{
+                location.reload();
          database.ref('/').set({
              gameState:0,playerCount:0,players:null
          })
-         location.reload();
+         
 
             }
         )
